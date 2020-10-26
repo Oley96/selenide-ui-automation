@@ -7,17 +7,17 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class LoginModal {
 
-    public LoginModal fillUsername(String username) {
+    private LoginModal fillUsername(String username) {
         $(by("name", "username")).setValue(username);
         return this;
     }
 
-    public LoginModal fillPassword(String password) {
+    private LoginModal fillPassword(String password) {
         $(by("name", "password")).setValue(password);
         return this;
     }
 
-    public LoginModal clickToLoginButton() {
+    private LoginModal clickToLoginButton() {
         $("[onclick*='login']").click();
         return this;
     }

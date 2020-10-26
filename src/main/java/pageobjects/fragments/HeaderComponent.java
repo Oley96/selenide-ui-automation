@@ -1,15 +1,16 @@
 package pageobjects.fragments;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 
 public class HeaderComponent {
 
     private SelenideElement
             logoutLink = $("[onclick*='logout']"),
-            loginLink = $("#login").$("[data-target='#login-modal']");
+            loginLink = $("#login").$("[data-target='#login-modal']"),
+            cartButton = $("#numItemsInCart");
 
     public HeaderComponent clickToLoginLink() {
         loginLink.click();
@@ -27,17 +28,22 @@ public class HeaderComponent {
     }
 
     public HeaderComponent verifyLogoutLinkPresent() {
-        logoutLink.shouldBe(Condition.appear);
+        logoutLink.shouldBe(appear);
         return this;
     }
 
     public HeaderComponent verifyLoginLinkPresent() {
-        loginLink.shouldBe(Condition.appear);
+        loginLink.shouldBe(appear);
         return this;
     }
 
     public HeaderComponent clickToCatalogueTab() {
         $(".navbar-nav #tabCatalogue").click();
+        return this;
+    }
+
+    public HeaderComponent clickToCartButton() {
+        cartButton.parent().parent().click();
         return this;
     }
 

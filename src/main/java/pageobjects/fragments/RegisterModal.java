@@ -6,33 +6,44 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class RegisterModal {
 
-    public RegisterModal fillUsername(String username) {
+    private RegisterModal fillUsername(String username) {
         $("#register-username-modal").setValue(username);
         return this;
     }
 
-    public RegisterModal fillFirstName(String firstName) {
+    private RegisterModal fillFirstName(String firstName) {
         $("#register-first-modal").setValue(firstName);
         return this;
     }
 
-    public RegisterModal fillLastName(String lastName) {
+    private RegisterModal fillLastName(String lastName) {
         $("#register-last-modal").setValue(lastName);
         return this;
     }
 
-    public RegisterModal fillEmail(String email) {
+    private RegisterModal fillEmail(String email) {
         $("#register-email-modal").setValue(email);
         return this;
     }
 
-    public RegisterModal fillPassword(String password) {
+    private RegisterModal fillPassword(String password) {
         $("#register-password-modal").setValue(password);
         return this;
     }
 
     public RegisterModal clickRegisterButton() {
         $("[onclick*='register']").click();
+        return this;
+    }
+
+
+    public RegisterModal registerWith(String username, String firstName, String lastName, String email, String password) {
+        fillUsername(username);
+        fillFirstName(firstName);
+        fillLastName(lastName);
+        fillEmail(email);
+        fillPassword(password);
+        clickRegisterButton();
         return this;
     }
 
