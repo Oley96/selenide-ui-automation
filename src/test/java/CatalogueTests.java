@@ -1,33 +1,37 @@
+import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import pageobjects.pages.CataloguePage;
 
+import static com.codeborne.selenide.WebDriverRunner.*;
 import static data.CategoriesEnum.ACTION;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static pageobjects.pages.CataloguePage.*;
 
 public class CatalogueTests extends BaseTest {
 
     @Test
     @DisplayName("User can select filters and apply it")
     public void canSelectFilterAndApply() {
-        mainPage.clickToCatalogueTab();
+        mainPage.open().clickToCatalogueTab();
         cataloguePage.filterBy(ACTION).clickApplyButton();
 
-        assertEquals("2", getNumbersOfAllProducts());
+        Selenide.sleep(5000);
+
+        assertEquals(2, CataloguePage.getItemsSize());
     }
 
     @Test
     @DisplayName("User can clear filters and apply it")
     public void canClearFilterAndApply() {
-        mainPage.clickToCatalogueTab();
+        mainPage.open().clickToCatalogueTab();
         cataloguePage.filterBy(ACTION).clickApplyButton();
 
-        assertEquals("2", getNumbersOfAllProducts());
+        assertEquals(2, cataloguePage.getItemsSize());
 
         cataloguePage.clickClearFilters();
 
-        assertEquals("9", getNumbersOfAllProducts());
+        assertEquals(9, cataloguePage.getItemsSize());
     }
 
     @Test
@@ -46,11 +50,11 @@ public class CatalogueTests extends BaseTest {
         mainPage.clickToCatalogueTab();
         cataloguePage.goToPageWithNumber(2);
 
-        assertTrue(urlContains("?page=2"));
+        assertTrue(getWebDriver().getCurrentUrl().contains("?page=2"));
 
         cataloguePage.goToPageWithNumber(1);
 
-        assertTrue(urlContains("?page=1"));
+        assertTrue(getWebDriver().getCurrentUrl().contains("?page=1"));
     }
 
 

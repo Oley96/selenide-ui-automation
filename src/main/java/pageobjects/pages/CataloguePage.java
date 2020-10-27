@@ -1,6 +1,7 @@
 package pageobjects.pages;
 
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.Selenide;
 import data.CategoriesEnum;
 import pageobjects.WebPage;
@@ -20,9 +21,7 @@ public class CataloguePage extends WebPage {
     }
 
     private ElementsCollection
-            filters = $$("#filters input"),
-            products = $$("#products .product"),
-            productNumbers = $$("#products-number a");
+            products = $$("#products .product");
 
     /*
     1. User can select filters and apply changes
@@ -35,7 +34,7 @@ public class CataloguePage extends WebPage {
     8. User can scroll by clicking Scroll to product details, material & care and sizing
     9. User can add item to wish list
     10. User can select category
-    11. User can sort products by
+
      */
 
 
@@ -79,6 +78,12 @@ public class CataloguePage extends WebPage {
     public CataloguePage sortBy(String sortBy) {
         $(byName("sort-by")).shouldBe(visible).selectOption(sortBy);
         return this;
+    }
+
+    public Integer  getItemsSize() {
+        int size =
+
+        return size;
     }
 
 
