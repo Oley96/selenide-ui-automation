@@ -2,6 +2,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import pageobjects.pages.CataloguePage;
 
 import static com.codeborne.selenide.WebDriverRunner.*;
 import static data.CategoriesEnum.ACTION;
@@ -60,7 +61,6 @@ public class CatalogueTests extends BaseTest {
         assertTrue(getWebDriver().getCurrentUrl().contains("?page=1"));
     }
 
-
     @Test
     @DisplayName("User can add item to cart")
     public void canAddItemToCart() {
@@ -69,7 +69,16 @@ public class CatalogueTests extends BaseTest {
         cartPage.shouldContainsProductWithName("Holy");
     }
 
+    @Test
+    @DisplayName("Quantity of items in cart button should be raised when user click add to cart")
+    public void shouldChangeValueOnCartButton() {
+        mainPage.open().clickToCatalogueTab();
+        cataloguePage.addItemToCartWithName("Holy")
+                .addItemToCartWithName("Colourful")
+                .addItemToCartWithName("SuperSport XL");
 
+        assertEquals("3 item(s) in cart", CataloguePage.getQuantityFromCartButton());
+    }
 
 
 }

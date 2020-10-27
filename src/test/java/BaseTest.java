@@ -27,10 +27,7 @@ public class BaseTest {
 
     }
 
-    @BeforeEach
-    public void beforeEach() {
-        open("/");
-    }
+
 
     @AfterEach
     public void afterEach() {

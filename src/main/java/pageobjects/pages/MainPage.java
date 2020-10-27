@@ -19,7 +19,8 @@ public class MainPage extends WebPage {
             logoutButton = $("[onclick*='logout']"),
             loginButton = $("#login").$("[data-target='#login-modal']"),
             registerButton = $("#register"),
-            accountTab = $("#tabAccount");
+            accountTab = $("#tabAccount"),
+            cartButton = $("#numItemsInCart");
 
 
     public MainPage open() {
@@ -62,6 +63,11 @@ public class MainPage extends WebPage {
 
     public MainPage verifyLoginButtonPresent() {
         loginButton.shouldBe(appear);
+        return this;
+    }
+
+    public MainPage clickCartButton() {
+        cartButton.click();
         return this;
     }
 

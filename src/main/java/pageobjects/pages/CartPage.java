@@ -1,6 +1,8 @@
 package pageobjects.pages;
 
 
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import pageobjects.WebPage;
@@ -31,6 +33,46 @@ public class CartPage extends WebPage {
         $("[action*='customer-orders']").$(byLinkText(name)).shouldBe(visible);
         return this;
     }
+
+    public CartPage removeItemWithName(String name) {
+        $(Selectors.byLinkText(name)).parent().parent().$("[onclick*='deleteFromCart']").click();
+        return this;
+    }
+
+    public CartPage setItemQuantity(String number) {
+        quantityInput.val(number);
+        return this;
+    }
+
+    public CartPage clickUpdate() {
+        updateButton.click();
+        return this;
+    }
+
+    public CartPage clickContinue() {
+        continueButton.click();
+        return this;
+    }
+
+    public CartPage verifyRemoving(String name) {
+        $(Selectors.byLinkText(name)).should(disappear);
+        return this;
+    }
+
+    public CartPage verifyIncreasingOfItems(String number) {
+        quantityInput.shouldHave(attribute("value", number));
+        return this;
+    }
+
+    public SelenideElement allertMessageOnShippingAdress() {
+        return $("[id='address']");
+    }
+
+    public SelenideElement allertMessageOnPayment() {
+        return $("[id='number']");
+    }
+
+
 
 
 

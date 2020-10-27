@@ -24,15 +24,6 @@ public class CataloguePage extends WebPage {
     private SelenideElement cartButton = $("#numItemsInCart");
     private ElementsCollection products = $$("#products .product");
 
-    /*
-
-    5. User can add item to cart
-    6. User can view details of item
-
-    7. User can add item to cart from item details page
-
-     */
-
 
     public CataloguePage open() {
         return Selenide.open(this.url, CataloguePage.class);
@@ -83,7 +74,7 @@ public class CataloguePage extends WebPage {
     }
 
     public CataloguePage addItemToCartWithName(String name) {
-        $(".text h3").$(Selectors.byLinkText(name)).parent().parent()
+        $(Selectors.byLinkText(name)).parent().parent()
                 .find("[onclick*='addToCart']").click();
         return this;
     }
@@ -91,6 +82,11 @@ public class CataloguePage extends WebPage {
     public CataloguePage clickCartButton() {
         cartButton.click();
         return this;
+    }
+
+    public static String getQuantityFromCartButton() {
+        String num = $("*#numItemsInCart").getText();
+        return num;
     }
 
 
