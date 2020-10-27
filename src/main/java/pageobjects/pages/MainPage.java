@@ -3,8 +3,6 @@ package pageobjects.pages;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import pageobjects.WebPage;
-import pageobjects.fragments.LoginModal;
-import pageobjects.fragments.RegisterModal;
 
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.visible;
@@ -20,7 +18,6 @@ public class MainPage extends WebPage {
     private SelenideElement
             logoutButton = $("[onclick*='logout']"),
             loginButton = $("#login").$("[data-target='#login-modal']"),
-            cartButton = $("#numItemsInCart"),
             registerButton = $("#register"),
             accountTab = $("#tabAccount");
 
@@ -52,6 +49,10 @@ public class MainPage extends WebPage {
     public MainPage clickAccountTab() {
         accountTab.click();
         return this;
+    }
+
+    public SelenideElement accountTab() {
+        return accountTab;
     }
 
     public MainPage verifyLogoutButtonPresent() {

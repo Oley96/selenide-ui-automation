@@ -2,6 +2,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import utils.Utils;
 
+import static com.codeborne.selenide.Condition.*;
+
 
 public class AuthTests extends BaseTest {
 
@@ -51,6 +53,21 @@ public class AuthTests extends BaseTest {
         mainPage.open().clickLogin();
         loginModal.loginWith("Vovka", "123456");
         mainPage.clickLogout().verifyLoginButtonPresent();
+    }
+
+    @Test
+    @DisplayName("Logged in user should see account tab")
+    public void shouldPresentAccountTab() {
+        mainPage.open().clickLogin();
+        loginModal.loginWith("Vovka", "123456");
+        mainPage.accountTab().shouldBe(visible);
+    }
+
+    @Test
+    @DisplayName("Logged out user should not see account tab")
+    public void shouldNotPresentAccountTab() {
+        mainPage.open();
+        mainPage.accountTab().shouldNotBe(visible);
     }
 
 

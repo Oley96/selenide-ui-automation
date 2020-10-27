@@ -3,6 +3,7 @@ package pageobjects.pages;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import data.CategoriesEnum;
 import pageobjects.WebPage;
 
@@ -10,7 +11,6 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.$$;
-import static java.lang.Integer.*;
 import static java.lang.String.*;
 
 public class CataloguePage extends WebPage {
@@ -20,20 +20,16 @@ public class CataloguePage extends WebPage {
         this.title = "\n" + "        WeaveSocks\n" + "    ";
     }
 
-    private ElementsCollection
-            products = $$("#products .product");
+
+    private SelenideElement cartButton = $("#numItemsInCart");
+    private ElementsCollection products = $$("#products .product");
 
     /*
-    1. User can select filters and apply changes
-    2. User can clear filters and apply changes
-    3. User can change quantity of showed products
-    4. User can follow to next page with products
+
     5. User can add item to cart
     6. User can view details of item
+
     7. User can add item to cart from item details page
-    8. User can scroll by clicking Scroll to product details, material & care and sizing
-    9. User can add item to wish list
-    10. User can select category
 
      */
 
@@ -59,15 +55,11 @@ public class CataloguePage extends WebPage {
     }
 
 
-    public CataloguePage setNumberOfShowedProducts(String number) {
-        $(format("[onclick*='PageSize(%s)']", number)).click();
+    public CataloguePage setNumberOfShowedProducts(Integer number) {
+        $(format("[onclick*='PageSize(%d)']", number)).click();
         return this;
     }
 
-    public CataloguePage verifyNumberOfShowedProducts(String size) {
-        $$("#products .product").filterBy(visible).shouldHaveSize(parseInt(size));
-        return this;
-    }
 
     public CataloguePage goToPageWithNumber(Integer i) {
         $(format("[onclick='setNewPage(%d)']", i)).click();
@@ -80,10 +72,25 @@ public class CataloguePage extends WebPage {
         return this;
     }
 
-    public Integer  getItemsSize() {
-        int size =
-
+    public Integer getItemsSize() {
+        int size = $$("#products").first().shouldBe(visible).findAll(".product").size();
         return size;
+    }
+
+    public CataloguePage viewDetailsOfFirsItem() {
+        products.get(0).shouldBe(visible).find(".text h3 a").click();
+        return this;
+    }
+
+    public CataloguePage addItemToCartWithName(String name) {
+        $(".text h3").$(Selectors.byLinkText(name)).parent().parent()
+                .find("[onclick*='addToCart']").click();
+        return this;
+    }
+
+    public CataloguePage clickCartButton() {
+        cartButton.click();
+        return this;
     }
 
 

@@ -1,7 +1,7 @@
-import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pageobjects.pages.CataloguePage;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static com.codeborne.selenide.WebDriverRunner.*;
 import static data.CategoriesEnum.ACTION;
@@ -16,9 +16,7 @@ public class CatalogueTests extends BaseTest {
         mainPage.open().clickToCatalogueTab();
         cataloguePage.filterBy(ACTION).clickApplyButton();
 
-        Selenide.sleep(5000);
-
-        assertEquals(2, CataloguePage.getItemsSize());
+        assertEquals(2, cataloguePage.getItemsSize());
     }
 
     @Test
@@ -31,15 +29,20 @@ public class CatalogueTests extends BaseTest {
 
         cataloguePage.clickClearFilters();
 
-        assertEquals(9, cataloguePage.getItemsSize());
+        assertEquals(6, cataloguePage.getItemsSize());
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("test_data.CatalogueData#catalogProductNumberData")
     @DisplayName("User can change quantity of showed products")
-    public void canChangeQuantityOfShowedProducts() {
+    public void canChangeQuantityOfShowedProducts(int number, String urlParam) {
         mainPage.clickToCatalogueTab();
-        cataloguePage.setNumberOfShowedProducts("6")
-                .verifyNumberOfShowedProducts("6");
+        cataloguePage.setNumberOfShowedProducts(number);
+
+        assertAll(
+                () -> assertTrue(getWebDriver().getCurrentUrl().contains(urlParam)),
+                () -> assertEquals(number, cataloguePage.getItemsSize())
+        );
 
     }
 
@@ -56,6 +59,17 @@ public class CatalogueTests extends BaseTest {
 
         assertTrue(getWebDriver().getCurrentUrl().contains("?page=1"));
     }
+
+
+    @Test
+    @DisplayName("User can add item to cart")
+    public void canAddItemToCart() {
+        mainPage.open().clickToCatalogueTab();
+        cataloguePage.addItemToCartWithName("Holy").clickCartButton();
+        cartPage.shouldContainsProductWithName("Holy");
+    }
+
+
 
 
 }
