@@ -1,3 +1,4 @@
+import dto.PaymentInfo;
 import dto.ShippingAddress;
 import dto.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,18 +9,10 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CartTests extends BaseTest {
+
     private User user;
     private ShippingAddress address;
-
-    /*
-
-
-8. User can add credit card
-9. User can proceed to chechout from cart
-10. User should see error message if amount exceeds 100$
-
-
-     */
+    private PaymentInfo info;
 
     @BeforeEach
     public void arrange() {
@@ -29,17 +22,18 @@ public class CartTests extends BaseTest {
                 .build();
 
         address = new ShippingAddress();
+        info = new PaymentInfo();
+        mainPage.open();
     }
-
 
     @Test
     @DisplayName("User can remove item from cart")
     public void canRemoveItemFromCart() {
         String itemName = "Colourful";
 
-        mainPage.open().clickToCatalogueTab();
+        mainPage.clickToCatalogueTab();
         cataloguePage.addItemToCartWithName(itemName).clickCartButton();
-        cartPage.shouldContainsProductWithName(itemName)
+        cartPage.shouldContainsItemWithName(itemName)
                 .removeItemWithName(itemName)
                 .verifyRemoving(itemName);
     }
@@ -50,9 +44,9 @@ public class CartTests extends BaseTest {
         String itemName = "Colourful";
         String quantity = "10";
 
-        mainPage.open().clickToCatalogueTab();
+        mainPage.clickToCatalogueTab();
         cataloguePage.addItemToCartWithName(itemName).clickCartButton();
-        cartPage.shouldContainsProductWithName(itemName).setItemQuantity(quantity);
+        cartPage.shouldContainsItemWithName(itemName).setItemQuantity(quantity);
         cartPage.clickUpdate();
         cartPage.verifyIncreasingOfItems(quantity);
     }
@@ -60,7 +54,7 @@ public class CartTests extends BaseTest {
     @Test
     @DisplayName("User can continue shopping. Should be redirected to catalogue page")
     public void canContinueShopping() {
-        mainPage.open().clickCartButton();
+        mainPage.clickCartButton();
         cartPage.clickContinue();
 
         assertTrue(getWebDriver().getCurrentUrl().contains("/category"));
@@ -70,7 +64,7 @@ public class CartTests extends BaseTest {
     @Test
     @DisplayName("User should see error message if missing shipping address")
     public void shouldSeeErrorMessageWhenMissingShippingAddress() {
-        mainPage.open().clickCartButton();
+        mainPage.clickCartButton();
 
         assertEquals("No address saved for user.", cartPage.alertMessageOnShippingAddress().getText());
     }
@@ -79,7 +73,7 @@ public class CartTests extends BaseTest {
     @Test
     @DisplayName("User should see error message if missing payment info")
     public void shouldSeeErrorMessageWhenMissingPaymentInfo() {
-        mainPage.open().clickCartButton();
+        mainPage.clickCartButton();
 
         assertEquals("No credit card saved for user.", cartPage.alertMessageOnPayment().getText());
     }
@@ -87,11 +81,37 @@ public class CartTests extends BaseTest {
     @Test
     @DisplayName("User can add shipping address")
     public void canAddShippingAddress() {
-        mainPage.open().clickLogin();
+        mainPage.clickLogin();
         loginModal.loginWith(user).verifySuccessMessagePresent();
         cartPage.open().clickChangeShippingAddressButton();
-        shippingAddressModal.addCard(address);
+        shippingAddressModal.addShippingAddress(address);
         cartPage.verifyAddingAddress(address);
+    }
 
+    @Test
+    @DisplayName("User can add credit card")
+    public void canAddCreditCard() {
+        mainPage.clickLogin();
+        loginModal.loginWith(user).verifySuccessMessagePresent();
+        cartPage.open().clickChangePayment();
+        paymentModal.addCard(info);
+        cartPage.verifyAddingPaymentInfo(info);
+    }
+
+    @Test
+    @DisplayName("User can start proceed to checkout")
+    public void loggedInUserCanStartProceedToCheckout() {
+        String itemName = "Colourful";
+
+        mainPage.clickLogin();
+        loginModal.loginWith(user).verifySuccessMessagePresent();
+        mainPage.clickToCatalogueTab();
+        cataloguePage.addItemToCartWithName(itemName).clickCartButton();
+        cartPage.shouldContainsItemWithName(itemName).clickChangeShippingAddressButton();
+        shippingAddressModal.addShippingAddress(address);
+        cartPage.verifyAddingAddress(address).clickChangePayment();
+        paymentModal.addCard(info);
+        cartPage.verifyAddingPaymentInfo(info).startProceedToCheckout();
+        accountPage.verifyCheckout();
     }
 }

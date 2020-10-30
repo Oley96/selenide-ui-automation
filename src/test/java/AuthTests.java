@@ -16,12 +16,13 @@ public class AuthTests extends BaseTest {
                 .userName("Vovka")
                 .password("123456")
                 .build();
+        mainPage.open();
     }
 
     @Test
     @DisplayName("User can login with valid credentials")
     public void canLoginWithValidCredentials() {
-        mainPage.open().clickLogin();
+        mainPage.clickLogin();
         loginModal.loginWith(user).verifySuccessMessagePresent();
         mainPage.verifyLogoutButtonPresent();
     }
@@ -34,7 +35,7 @@ public class AuthTests extends BaseTest {
                 .password("123456")
                 .build();
 
-        mainPage.open().clickLogin();
+        mainPage.clickLogin();
         loginModal.loginWith(invalidUser).verifyErrorMessagePresent();
     }
 
@@ -43,7 +44,7 @@ public class AuthTests extends BaseTest {
     public void canRegisterWithValidCredentials() {
         val newUser = new User();
 
-        mainPage.open().clickRegister();
+        mainPage.clickRegister();
         registerModal.registerWith(newUser).verifySuccessMessagePresent();
         mainPage.verifyLogoutButtonPresent();
     }
@@ -51,14 +52,14 @@ public class AuthTests extends BaseTest {
     @Test
     @DisplayName("User can't register without credentials")
     public void cantRegisterWithoutCredentials() {
-        mainPage.open().clickRegister();
+        mainPage.clickRegister();
         registerModal.clickRegisterButton().verifyErrorMessagePresent();
     }
 
     @Test
     @DisplayName("User can logout after login")
     public void userCanLogout() {
-        mainPage.open().clickLogin();
+        mainPage.clickLogin();
         loginModal.loginWith(user);
         mainPage.clickLogout().verifyLoginButtonPresent();
     }
@@ -66,7 +67,7 @@ public class AuthTests extends BaseTest {
     @Test
     @DisplayName("Logged in user should see account tab")
     public void shouldPresentAccountTab() {
-        mainPage.open().clickLogin();
+        mainPage.clickLogin();
         loginModal.loginWith(user);
         mainPage.accountTab().shouldBe(visible);
     }
@@ -74,7 +75,6 @@ public class AuthTests extends BaseTest {
     @Test
     @DisplayName("Logged out user should not see account tab")
     public void shouldNotPresentAccountTab() {
-        mainPage.open();
         mainPage.accountTab().shouldNotBe(visible);
     }
 }

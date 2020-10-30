@@ -64,7 +64,7 @@ public class CataloguePage extends WebPage {
     }
 
     public Integer getItemsSize() {
-        int size = $$("#products").first().shouldBe(visible).findAll(".product").size();
+        int size = $("[id='products']").shouldBe(visible).findAll(".product").size();
         return size;
     }
 
@@ -74,8 +74,9 @@ public class CataloguePage extends WebPage {
     }
 
     public CataloguePage addItemToCartWithName(String name) {
-        $(Selectors.byLinkText(name)).parent().parent()
-                .find("[onclick*='addToCart']").click();
+        SelenideElement container = $("[id='row products']");
+        container.$(Selectors.byText(name)).shouldBe(visible).parent().parent().find("[onclick*='addToCart']").shouldBe(visible).click();
+        sleep(1000);
         return this;
     }
 
@@ -84,8 +85,8 @@ public class CataloguePage extends WebPage {
         return this;
     }
 
-    public static String getQuantityFromCartButton() {
-        String num = $("*#numItemsInCart").getText();
+    public String getQuantityFromCartButton() {
+        String num = $("*#numItemsInCart").shouldBe(visible).getText();
         return num;
     }
 

@@ -1,0 +1,16 @@
+package pageobjects.pages;
+
+import com.codeborne.selenide.CollectionCondition;
+import pageobjects.WebPage;
+
+import static com.codeborne.selenide.Selenide.$$;
+
+public class AccountPage extends WebPage {
+
+    public AccountPage verifyCheckout() {
+        $$("[id=tableOrders] tr").shouldHave(CollectionCondition.sizeGreaterThanOrEqual(1));
+        return this;
+    }
+
+
+}

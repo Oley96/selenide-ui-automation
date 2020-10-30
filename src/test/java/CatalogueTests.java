@@ -1,8 +1,8 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import pageobjects.pages.CataloguePage;
 
 import static com.codeborne.selenide.WebDriverRunner.*;
 import static data.CategoriesEnum.ACTION;
@@ -11,10 +11,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CatalogueTests extends BaseTest {
 
+
+    @BeforeEach
+    public void arrange() {
+        mainPage.open().clickToCatalogueTab();
+    }
+
     @Test
     @DisplayName("User can select filters and apply it")
     public void canSelectFilterAndApply() {
-        mainPage.open().clickToCatalogueTab();
         cataloguePage.filterBy(ACTION).clickApplyButton();
 
         assertEquals(2, cataloguePage.getItemsSize());
@@ -23,7 +28,6 @@ public class CatalogueTests extends BaseTest {
     @Test
     @DisplayName("User can clear filters and apply it")
     public void canClearFilterAndApply() {
-        mainPage.open().clickToCatalogueTab();
         cataloguePage.filterBy(ACTION).clickApplyButton();
 
         assertEquals(2, cataloguePage.getItemsSize());
@@ -37,7 +41,6 @@ public class CatalogueTests extends BaseTest {
     @MethodSource("test_data.CatalogueData#catalogProductNumberData")
     @DisplayName("User can change quantity of showed products")
     public void canChangeQuantityOfShowedProducts(int number, String urlParam) {
-        mainPage.clickToCatalogueTab();
         cataloguePage.setNumberOfShowedProducts(number);
 
         assertAll(
@@ -47,11 +50,9 @@ public class CatalogueTests extends BaseTest {
 
     }
 
-
     @Test
     @DisplayName("User can follow to next page and return back")
     public void canFollowToNextPageAndReturnBack() {
-        mainPage.clickToCatalogueTab();
         cataloguePage.goToPageWithNumber(2);
 
         assertTrue(getWebDriver().getCurrentUrl().contains("?page=2"));
@@ -64,21 +65,17 @@ public class CatalogueTests extends BaseTest {
     @Test
     @DisplayName("User can add item to cart")
     public void canAddItemToCart() {
-        mainPage.open().clickToCatalogueTab();
         cataloguePage.addItemToCartWithName("Holy").clickCartButton();
-        cartPage.shouldContainsProductWithName("Holy");
+        cartPage.shouldContainsItemWithName("Holy");
     }
 
     @Test
     @DisplayName("Quantity of items in cart button should be raised when user click add to cart")
     public void shouldChangeValueOnCartButton() {
-        mainPage.open().clickToCatalogueTab();
-        cataloguePage.addItemToCartWithName("Holy")
-                .addItemToCartWithName("Colourful")
-                .addItemToCartWithName("SuperSport XL");
+        cataloguePage.addItemToCartWithName("Colourful");
+        cataloguePage.addItemToCartWithName("Holy");
+        cataloguePage.addItemToCartWithName("Crossed");
 
-        assertEquals("3 item(s) in cart", CataloguePage.getQuantityFromCartButton());
+        assertEquals("3 item(s) in cart", cataloguePage.getQuantityFromCartButton());
     }
-
-
 }

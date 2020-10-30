@@ -36,7 +36,7 @@ public class ShippingAddressModal {
         return this;
     }
 
-    public ShippingAddressModal addCard(ShippingAddress address) {
+    public ShippingAddressModal addShippingAddress(ShippingAddress address) {
         setHouseNumber(address.getHouseNumber());
         setStreetName(address.getStreetName());
         setCity(address.getCity());

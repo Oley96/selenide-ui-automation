@@ -1,5 +1,7 @@
 package pageobjects.fragments;
 
+import dto.PaymentInfo;
+
 import static com.codeborne.selenide.Selenide.$;
 
 public class PaymentModal {
@@ -24,10 +26,10 @@ public class PaymentModal {
         return this;
     }
 
-    public PaymentModal addCard(String number, String expirationDate, String ccv) {
-        setCardNumber(number);
-        setExpirationDate(expirationDate);
-        setCCV(ccv);
+    public PaymentModal addCard(PaymentInfo info) {
+        setCardNumber(info.getCardNumber());
+        setExpirationDate(info.getExpirationDate());
+        setCCV(info.getCcvCode());
         clickUpdate();
         return this;
     }

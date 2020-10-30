@@ -4,6 +4,7 @@ package pageobjects.pages;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import dto.PaymentInfo;
 import dto.ShippingAddress;
 import pageobjects.WebPage;
 
@@ -19,18 +20,17 @@ public class CartPage extends WebPage {
     }
 
     private SelenideElement
-            deleteButton = $("[onclick*='deleteFromCart']"),
-            checkoutButton = $("button#orderButton"),
             continueButton = $(".pull-left a[href*='category']"),
             updateButton = $("[onclick*='updateCart']"),
-            quantityInput = $("[type='number']");
+            quantityInput = $("[type='number']"),
+            ckeckoutAlert = $("#user-message .alert");
 
 
     public CartPage open() {
         return Selenide.open(this.url, this.getClass());
     }
 
-    public CartPage shouldContainsProductWithName(String name) {
+    public CartPage shouldContainsItemWithName(String name) {
         $("[action*='customer-orders']").$(byLinkText(name)).shouldBe(visible);
         return this;
     }
@@ -66,11 +66,11 @@ public class CartPage extends WebPage {
     }
 
     public SelenideElement alertMessageOnShippingAddress() {
-        return $("[id='address']");
+        return $("[id='address']").shouldBe(visible);
     }
 
     public SelenideElement alertMessageOnPayment() {
-        return $("[id='number']");
+        return $("[id='number']").shouldBe(visible);
     }
 
     public CartPage clickChangeShippingAddressButton() {
@@ -85,4 +85,27 @@ public class CartPage extends WebPage {
         $(".box #address").shouldHave(text(stringAddress));
         return this;
     }
+
+    public CartPage clickChangePayment() {
+        $("[data-target='#card-modal']").click();
+        return this;
+    }
+
+    public CartPage verifyAddingPaymentInfo(PaymentInfo info) {
+        $("[id=number]").shouldHave(text("Card ending in " + info.getCardNumber().substring(12, 15)));
+        return this;
+    }
+
+    public CartPage startProceedToCheckout() {
+        $("[id=orderButton]").shouldBe(enabled).click();
+        return this;
+    }
+
+    public CartPage verifiyAlertPresent() {
+        ckeckoutAlert.shouldHave(text("Could not place order. Missing shipping or payment information."));
+        return this;
+    }
+
+
+
 }

@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pageobjects.pages.ProductDetailsPage;
@@ -6,10 +7,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ProductDetailsTests extends BaseTest {
 
+    @BeforeEach
+    public void arrange() {
+        mainPage.open();
+    }
+
     @Test
     @DisplayName("User can view details of item")
     public void canViewDetailsOfItem() {
-        mainPage.open().clickToCatalogueTab();
+        mainPage.clickToCatalogueTab();
         cataloguePage.viewDetailsOfFirsItem();
 
         assertAll(
@@ -22,14 +28,13 @@ public class ProductDetailsTests extends BaseTest {
 
     }
 
-
     @Test
     @DisplayName("User can add item to cart from item details page")
     public void canAddItemToCartFromDetailsPage() {
-        mainPage.open().clickToCatalogueTab();
+        mainPage.clickToCatalogueTab();
         cataloguePage.viewDetailsOfFirsItem();
         productDetailsPage.clickAddToCartButton();
-        cartPage.open().shouldContainsProductWithName("Holy");
+        cartPage.open().shouldContainsItemWithName("Holy");
     }
 
 }
