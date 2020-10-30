@@ -1,9 +1,12 @@
 import core.Configuration;
+import dto.ShippingAddress;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import pageobjects.fragments.LoginModal;
+import pageobjects.fragments.PaymentModal;
 import pageobjects.fragments.RegisterModal;
+import pageobjects.fragments.ShippingAddressModal;
 import pageobjects.pages.CartPage;
 import pageobjects.pages.CataloguePage;
 import pageobjects.pages.MainPage;
@@ -20,6 +23,8 @@ public class BaseTest {
     public CataloguePage cataloguePage = new CataloguePage();
     public ProductDetailsPage productDetailsPage = new ProductDetailsPage();
     public CartPage cartPage = new CartPage();
+    public PaymentModal paymentModal = new PaymentModal();
+    public ShippingAddressModal shippingAddressModal = new ShippingAddressModal();
 
     @BeforeAll
     public static void beforeAll() {

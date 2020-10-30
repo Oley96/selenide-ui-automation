@@ -1,15 +1,16 @@
 package pageobjects.pages;
 
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import dto.ShippingAddress;
 import pageobjects.WebPage;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.$;
+import static org.apache.commons.lang3.StringUtils.SPACE;
 
 public class CartPage extends WebPage {
 
@@ -64,17 +65,24 @@ public class CartPage extends WebPage {
         return this;
     }
 
-    public SelenideElement allertMessageOnShippingAdress() {
+    public SelenideElement alertMessageOnShippingAddress() {
         return $("[id='address']");
     }
 
-    public SelenideElement allertMessageOnPayment() {
+    public SelenideElement alertMessageOnPayment() {
         return $("[id='number']");
     }
 
+    public CartPage clickChangeShippingAddressButton() {
+        $("[data-target='#address-modal']").click();
+        return this;
+    }
 
+    public CartPage verifyAddingAddress(ShippingAddress address) {
+        String stringAddress = address.getHouseNumber() + SPACE + address.getStreetName() + SPACE +
+                address.getCity() + SPACE + address.getPostCode() + SPACE + address.getCountry();
 
-
-
-
+        $(".box #address").shouldHave(text(stringAddress));
+        return this;
+    }
 }

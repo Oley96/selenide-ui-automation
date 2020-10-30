@@ -1,5 +1,7 @@
 package pageobjects.fragments;
 
+import dto.User;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.by;
@@ -34,9 +36,9 @@ public class LoginModal {
         return this;
     }
 
-    public LoginModal loginWith(String username, String password) {
-        this.fillUsername(username);
-        this.fillPassword(password);
+    public LoginModal loginWith(User user) {
+        this.fillUsername(user.getUserName());
+        this.fillPassword(user.getPassword());
         this.clickToLoginButton();
         return this;
     }

@@ -1,5 +1,7 @@
 package pageobjects.fragments;
 
+import dto.User;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -37,12 +39,12 @@ public class RegisterModal {
     }
 
 
-    public RegisterModal registerWith(String username, String firstName, String lastName, String email, String password) {
-        fillUsername(username);
-        fillFirstName(firstName);
-        fillLastName(lastName);
-        fillEmail(email);
-        fillPassword(password);
+    public RegisterModal registerWith(User user) {
+        fillUsername(user.getUserName());
+        fillFirstName(user.getFirstName());
+        fillLastName(user.getLastName());
+        fillEmail(user.getEmail());
+        fillPassword(user.getPassword());
         clickRegisterButton();
         return this;
     }

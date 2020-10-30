@@ -1,3 +1,6 @@
+import dto.ShippingAddress;
+import dto.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -5,16 +8,29 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CartTests extends BaseTest {
+    private User user;
+    private ShippingAddress address;
 
     /*
 
-7. User can add shipping address
+
 8. User can add credit card
 9. User can proceed to chechout from cart
 10. User should see error message if amount exceeds 100$
 
 
      */
+
+    @BeforeEach
+    public void arrange() {
+        user = new User().toBuilder()
+                .userName("Vovka")
+                .password("123456")
+                .build();
+
+        address = new ShippingAddress();
+    }
+
 
     @Test
     @DisplayName("User can remove item from cart")
@@ -56,7 +72,7 @@ public class CartTests extends BaseTest {
     public void shouldSeeErrorMessageWhenMissingShippingAddress() {
         mainPage.open().clickCartButton();
 
-        assertEquals("No address saved for user.", cartPage.allertMessageOnShippingAdress().getText());
+        assertEquals("No address saved for user.", cartPage.alertMessageOnShippingAddress().getText());
     }
 
 
@@ -65,9 +81,17 @@ public class CartTests extends BaseTest {
     public void shouldSeeErrorMessageWhenMissingPaymentInfo() {
         mainPage.open().clickCartButton();
 
-        assertEquals("No credit card saved for user.", cartPage.allertMessageOnPayment().getText());
+        assertEquals("No credit card saved for user.", cartPage.alertMessageOnPayment().getText());
     }
 
+    @Test
+    @DisplayName("User can add shipping address")
+    public void canAddShippingAddress() {
+        mainPage.open().clickLogin();
+        loginModal.loginWith(user).verifySuccessMessagePresent();
+        cartPage.open().clickChangeShippingAddressButton();
+        shippingAddressModal.addCard(address);
+        cartPage.verifyAddingAddress(address);
 
-
+    }
 }
