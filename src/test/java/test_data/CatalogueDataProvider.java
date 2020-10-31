@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.params.provider.Arguments.*;
 
 
-public class CatalogueData {
+public class CatalogueDataProvider {
 
     public static Stream<Arguments> catalogProductNumberData() {
         return Stream.of(

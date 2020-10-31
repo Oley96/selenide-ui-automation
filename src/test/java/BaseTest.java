@@ -1,14 +1,15 @@
-import core.Configuration;
+import drivers.WebDriverFactory;
 import dto.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import pageobjects.fragments.LoginModal;
 import pageobjects.fragments.PaymentModal;
 import pageobjects.fragments.RegisterModal;
 import pageobjects.fragments.ShippingAddressModal;
 import pageobjects.pages.*;
 
-import static com.codeborne.selenide.Selenide.closeWebDriver;
+import static core.SelenideConfiguration.setSelenideConfiguration;
 
 public class BaseTest {
 
@@ -29,13 +30,17 @@ public class BaseTest {
 
     @BeforeAll
     public static void beforeAll() {
-        Configuration.setSelenideConfiguration();
+        setSelenideConfiguration();
+    }
 
+    @BeforeEach
+    public void beforeEach() {
+        new WebDriverFactory().createDriverInstance();
     }
 
 
     @AfterEach
     public void afterEach() {
-        closeWebDriver();
+        new WebDriverFactory().shutdownDriverInstance();
     }
 }

@@ -2,7 +2,7 @@ package core;
 
 import static com.codeborne.selenide.Configuration.*;
 
-public class Configuration {
+public class SelenideConfiguration {
 
     public static void setSelenideConfiguration() {
         timeout = 5000;

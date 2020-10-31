@@ -17,21 +17,25 @@ repositories {
 
 ext {
     floggerVersion = "0.4"
+    javaOwnerVersion = "1.0.12"
+    junit5Version = "5.7.0"
+    selenideVersion = "5.15.1"
+    slf4jVersion = "1.6.1"
 }
 
 dependencies {
     testCompile(
-            "org.junit.jupiter:junit-jupiter-api:5.7.0",
-            "org.junit.jupiter:junit-jupiter-engine:5.7.0",
-            "org.junit.jupiter:junit-jupiter-params:5.7.0"
+            "org.junit.jupiter:junit-jupiter-api:$junit5Version",
+            "org.junit.jupiter:junit-jupiter-engine:$junit5Version",
+            "org.junit.jupiter:junit-jupiter-params:$junit5Version"
     )
     compile(
-            "com.codeborne:selenide:5.15.1",
-            "org.slf4j:slf4j-simple:1.6.1"
+            "com.codeborne:selenide:$selenideVersion",
+            "org.slf4j:slf4j-simple:$slf4jVersion"
     )
     compile group: "com.google.flogger", name: "flogger-system-backend", version: "$floggerVersion"
     compile group: "com.google.flogger", name: "flogger", version: "$floggerVersion"
-
+    compile group: 'org.aeonbits.owner', name: 'owner', version: "$javaOwnerVersion"
 }
 
 tasks.withType(Test) {
@@ -43,6 +47,17 @@ tasks.withType(Test) {
         exceptionFormat = "full"
         displayGranularity = 4
     }
-
-
 }
+
+task testRemoteChrome(type: Test) {
+    systemProperties["browser.name"] = "remote"
+}
+
+task testChrome(type: Test) {
+    systemProperties["browser.name"] = "chrome"
+}
+
+task testFirefox(type: Test) {
+    systemProperties["browser.name"] = "firefox"
+}
+
