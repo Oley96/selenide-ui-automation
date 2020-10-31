@@ -3,7 +3,7 @@ package dto;
 import lombok.*;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
-import static utils.Utils.getRandomNumberWithLength;
+import static helpers.RandomHelper.getRandomNumberWithLength;
 
 @Getter
 @NoArgsConstructor

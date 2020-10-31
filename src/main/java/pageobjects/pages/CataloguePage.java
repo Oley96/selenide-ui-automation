@@ -17,12 +17,10 @@ public class CataloguePage extends WebPage {
 
     public CataloguePage() {
         this.url = "/category.html";
-        this.title = "\n" + "        WeaveSocks\n" + "    ";
     }
 
-
-    private SelenideElement cartButton = $("#numItemsInCart");
-    private ElementsCollection products = $$("#products .product");
+    private final SelenideElement cartButton = $("#numItemsInCart");
+    private final ElementsCollection products = $$("#products .product");
 
 
     public CataloguePage open() {
@@ -31,35 +29,41 @@ public class CataloguePage extends WebPage {
 
     public CataloguePage filterBy(CategoriesEnum name) {
         $$("#filters input").filterBy(value(name.getName())).first().click();
+        logger.atInfo().log("select filter %s", name.getName());
         return this;
     }
 
 
     public CataloguePage clickApplyButton() {
         $("#filters-form > a").click();
+        logger.atInfo().log("click to Apply button");
         return this;
     }
 
     public CataloguePage clickClearFilters() {
         $("[onclick*='reset']").click();
+        logger.atInfo().log("click Clear button on filter selector");
         return this;
     }
 
 
     public CataloguePage setNumberOfShowedProducts(Integer number) {
         $(format("[onclick*='PageSize(%d)']", number)).click();
+        logger.atInfo().log("click to set %d showed products", number);
         return this;
     }
 
 
     public CataloguePage goToPageWithNumber(Integer i) {
         $(format("[onclick='setNewPage(%d)']", i)).click();
+        logger.atInfo().log("click to page ttan have number %d in pagination", i);
         return this;
     }
 
 
     public CataloguePage sortBy(String sortBy) {
         $(byName("sort-by")).shouldBe(visible).selectOption(sortBy);
+        logger.atInfo().log("sort items by %s", sortBy);
         return this;
     }
 
@@ -75,13 +79,17 @@ public class CataloguePage extends WebPage {
 
     public CataloguePage addItemToCartWithName(String name) {
         SelenideElement container = $("[id='row products']");
-        container.$(Selectors.byText(name)).shouldBe(visible).parent().parent().find("[onclick*='addToCart']").shouldBe(visible).click();
+
+        container.$(Selectors.byText(name)).shouldBe(visible).parent().parent()
+                .find("[onclick*='addToCart']").shouldBe(visible).click();
+        logger.atInfo().log("add item to cart with name %s", name);
         sleep(1000);
         return this;
     }
 
     public CataloguePage clickCartButton() {
         cartButton.click();
+        logger.atInfo().log("click to cart button on header");
         return this;
     }
 

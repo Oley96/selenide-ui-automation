@@ -1,6 +1,5 @@
 import dto.PaymentInfo;
 import dto.ShippingAddress;
-import dto.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,17 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CartTests extends BaseTest {
 
-    private User user;
     private ShippingAddress address;
     private PaymentInfo info;
 
     @BeforeEach
     public void arrange() {
-        user = new User().toBuilder()
-                .userName("Vovka")
-                .password("123456")
-                .build();
-
         address = new ShippingAddress();
         info = new PaymentInfo();
         mainPage.open();
@@ -82,7 +75,7 @@ public class CartTests extends BaseTest {
     @DisplayName("User can add shipping address")
     public void canAddShippingAddress() {
         mainPage.clickLogin();
-        loginModal.loginWith(user).verifySuccessMessagePresent();
+        loginModal.loginWith(registeredUser).verifySuccessMessagePresent();
         cartPage.open().clickChangeShippingAddressButton();
         shippingAddressModal.addShippingAddress(address);
         cartPage.verifyAddingAddress(address);
@@ -92,7 +85,7 @@ public class CartTests extends BaseTest {
     @DisplayName("User can add credit card")
     public void canAddCreditCard() {
         mainPage.clickLogin();
-        loginModal.loginWith(user).verifySuccessMessagePresent();
+        loginModal.loginWith(registeredUser).verifySuccessMessagePresent();
         cartPage.open().clickChangePayment();
         paymentModal.addCard(info);
         cartPage.verifyAddingPaymentInfo(info);
@@ -104,7 +97,7 @@ public class CartTests extends BaseTest {
         String itemName = "Colourful";
 
         mainPage.clickLogin();
-        loginModal.loginWith(user).verifySuccessMessagePresent();
+        loginModal.loginWith(registeredUser).verifySuccessMessagePresent();
         mainPage.clickToCatalogueTab();
         cataloguePage.addItemToCartWithName(itemName).clickCartButton();
         cartPage.shouldContainsItemWithName(itemName).clickChangeShippingAddressButton();

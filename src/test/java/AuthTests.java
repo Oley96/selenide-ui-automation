@@ -1,21 +1,17 @@
 import dto.User;
-import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import resolver.UserResolver;
 
 import static com.codeborne.selenide.Condition.*;
 
-
+@ExtendWith(UserResolver.class)
 public class AuthTests extends BaseTest {
-    private User user;
 
     @BeforeEach
     public void arrange() {
-        user = new User().toBuilder()
-                .userName("Vovka")
-                .password("123456")
-                .build();
         mainPage.open();
     }
 
@@ -23,14 +19,14 @@ public class AuthTests extends BaseTest {
     @DisplayName("User can login with valid credentials")
     public void canLoginWithValidCredentials() {
         mainPage.clickLogin();
-        loginModal.loginWith(user).verifySuccessMessagePresent();
+        loginModal.loginWith(registeredUser).verifySuccessMessagePresent();
         mainPage.verifyLogoutButtonPresent();
     }
 
     @Test
     @DisplayName("User cant login with Invalid credentials")
-    public void cantLoginWithInvalidCredentials() {
-        User invalidUser = new User().toBuilder()
+    public void cantLoginWithInvalidCredentials(User user) {
+        User invalidUser = user.toBuilder()
                 .userName("VOVKA")
                 .password("123456")
                 .build();
@@ -41,11 +37,9 @@ public class AuthTests extends BaseTest {
 
     @Test
     @DisplayName("User can register with valid credentials")
-    public void canRegisterWithValidCredentials() {
-        val newUser = new User();
-
+    public void canRegisterWithValidCredentials(User user) {
         mainPage.clickRegister();
-        registerModal.registerWith(newUser).verifySuccessMessagePresent();
+        registerModal.registerWith(user).verifySuccessMessagePresent();
         mainPage.verifyLogoutButtonPresent();
     }
 
@@ -60,7 +54,7 @@ public class AuthTests extends BaseTest {
     @DisplayName("User can logout after login")
     public void userCanLogout() {
         mainPage.clickLogin();
-        loginModal.loginWith(user);
+        loginModal.loginWith(registeredUser);
         mainPage.clickLogout().verifyLoginButtonPresent();
     }
 
@@ -68,7 +62,7 @@ public class AuthTests extends BaseTest {
     @DisplayName("Logged in user should see account tab")
     public void shouldPresentAccountTab() {
         mainPage.clickLogin();
-        loginModal.loginWith(user);
+        loginModal.loginWith(registeredUser);
         mainPage.accountTab().shouldBe(visible);
     }
 

@@ -1,9 +1,11 @@
 package pageobjects.pages;
 
 import com.codeborne.selenide.Condition;
+import pageobjects.WebPage;
+
 import static com.codeborne.selenide.Selenide.$;
 
-public class ProductDetailsPage {
+public class ProductDetailsPage extends WebPage {
 
 
     public static String itemTitle() {
@@ -19,6 +21,7 @@ public class ProductDetailsPage {
 
     public ProductDetailsPage clickAddToCartButton() {
         $("[onclick*='addToCart']").click();
+        logger.atInfo().log("click add to cart button");
         return this;
     }
 

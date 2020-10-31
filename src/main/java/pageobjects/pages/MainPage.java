@@ -29,26 +29,25 @@ public class MainPage extends WebPage {
 
     public MainPage clickLogin() {
         loginButton.shouldBe(visible).click();
+        logger.atInfo().log("click login button");
         return this;
     }
 
     public MainPage clickRegister() {
         registerButton.shouldBe(visible).click();
+        logger.atInfo().log("click register button");
         return this;
     }
 
     public MainPage clickLogout() {
         logoutButton.shouldBe(visible).click();
+        logger.atInfo().log("click logout button");
         return this;
     }
 
     public MainPage clickToCatalogueTab() {
         $(".navbar-nav #tabCatalogue").shouldBe(visible).click();
-        return this;
-    }
-
-    public MainPage clickAccountTab() {
-        accountTab.click();
+        logger.atInfo().log("click to catalogue tab");
         return this;
     }
 
@@ -58,16 +57,19 @@ public class MainPage extends WebPage {
 
     public MainPage verifyLogoutButtonPresent() {
         logoutButton.shouldBe(appear);
+        logger.atInfo().log("check appearing of logout button");
         return this;
     }
 
     public MainPage verifyLoginButtonPresent() {
         loginButton.shouldBe(appear);
+        logger.atInfo().log("check login button present");
         return this;
     }
 
     public MainPage clickCartButton() {
-        cartButton.click();
+        cartButton.shouldBe(visible).click();
+        logger.atInfo().log("click to cart button");
         return this;
     }
 

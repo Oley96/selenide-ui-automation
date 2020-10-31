@@ -1,4 +1,5 @@
 import core.Configuration;
+import dto.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import pageobjects.fragments.LoginModal;
@@ -20,6 +21,11 @@ public class BaseTest {
     public PaymentModal paymentModal = new PaymentModal();
     public ShippingAddressModal shippingAddressModal = new ShippingAddressModal();
     public AccountPage accountPage = new AccountPage();
+
+    public User registeredUser = new User().toBuilder()
+            .userName("Vovka")
+            .password("123456")
+            .build();
 
     @BeforeAll
     public static void beforeAll() {

@@ -1,8 +1,8 @@
-package utils;
+package helpers;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
-public class Utils {
+public class RandomHelper {
 
     public static String getRandomNumberWithLength(int count) {
         return RandomStringUtils.random(count, false, true);

@@ -47,7 +47,6 @@ public class CatalogueTests extends BaseTest {
                 () -> assertTrue(getWebDriver().getCurrentUrl().contains(urlParam)),
                 () -> assertEquals(number, cataloguePage.getItemsSize())
         );
-
     }
 
     @Test
