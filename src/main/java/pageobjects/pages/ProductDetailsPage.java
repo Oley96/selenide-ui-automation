@@ -1,6 +1,7 @@
 package pageobjects.pages;
 
 import com.codeborne.selenide.Condition;
+import io.qameta.allure.Step;
 import pageobjects.WebPage;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -18,7 +19,7 @@ public class ProductDetailsPage extends WebPage {
         return details;
     }
 
-
+    @Step
     public ProductDetailsPage clickAddToCartButton() {
         $("[onclick*='addToCart']").click();
         logger.atInfo().log("click add to cart button");

@@ -1,7 +1,9 @@
 plugins {
     id 'java'
     id "io.freefair.lombok" version "4.1.6"
+    id "io.qameta.allure" version "2.8.1"
 }
+
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 
@@ -21,6 +23,7 @@ ext {
     selenideVersion = "5.15.1"
     slf4jVersion = "1.6.1"
     restAssuredVerifon = "4.3.1"
+    allureVersion = "2.13.5"
 }
 
 dependencies {
@@ -37,7 +40,7 @@ dependencies {
     compile group: "com.google.flogger", name: "flogger", version: "$floggerVersion"
     compile group: 'org.aeonbits.owner', name: 'owner', version: "$javaOwnerVersion"
     compile group: 'io.rest-assured', name: 'rest-assured', version: "$restAssuredVerifon"
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.3'
+    compile group: "io.qameta.allure", name: "allure-selenide", version: "$allureVersion"
 }
 
 tasks.withType(Test) {
@@ -50,6 +53,19 @@ tasks.withType(Test) {
         displayGranularity = 4
     }
 }
+
+
+allure {
+    autoconfigure = true
+    version = "$allureVersion"
+    aspectjweaver = true    // Latest Allure Version
+    configuration = "compile"
+
+    useJUnit5 {
+        version = "$allureVersion" // Latest Allure Version
+    }
+}
+
 
 task testRemoteChrome(type: Test) {
     systemProperties["browser.name"] = "remote"

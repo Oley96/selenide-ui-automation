@@ -1,6 +1,7 @@
 package pageobjects.fragments;
 
 import dto.ShippingAddress;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -36,6 +37,7 @@ public class ShippingAddressModal {
         return this;
     }
 
+    @Step
     public ShippingAddressModal addShippingAddress(ShippingAddress address) {
         setHouseNumber(address.getHouseNumber());
         setStreetName(address.getStreetName());

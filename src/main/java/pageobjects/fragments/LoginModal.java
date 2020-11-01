@@ -1,6 +1,7 @@
 package pageobjects.fragments;
 
 import dto.User;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -24,18 +25,21 @@ public class LoginModal {
         return this;
     }
 
+    @Step
     public LoginModal verifySuccessMessagePresent() {
         $(".alert.alert-success").shouldBe(visible)
                 .shouldHave(text("Login successful."));
         return this;
     }
 
+    @Step
     public LoginModal verifyErrorMessagePresent() {
         $(".alert.alert-danger").shouldBe(visible)
                 .shouldHave(text("Invalid login credentials."));
         return this;
     }
 
+    @Step
     public LoginModal loginWith(User user) {
         this.fillUsername(user.getUsername());
         this.fillPassword(user.getPassword());

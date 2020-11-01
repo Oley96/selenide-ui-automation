@@ -1,6 +1,7 @@
 package pageobjects.fragments;
 
 import dto.PaymentInfo;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -26,6 +27,7 @@ public class PaymentModal {
         return this;
     }
 
+    @Step
     public PaymentModal addCard(PaymentInfo info) {
         setCardNumber(info.getCardNumber());
         setExpirationDate(info.getExpirationDate());

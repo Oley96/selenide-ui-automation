@@ -5,6 +5,7 @@ import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import data.CategoriesEnum;
+import io.qameta.allure.Step;
 import pageobjects.WebPage;
 
 import static com.codeborne.selenide.Condition.*;
@@ -27,40 +28,42 @@ public class CataloguePage extends WebPage {
         return Selenide.open(this.url, CataloguePage.class);
     }
 
+    @Step
     public CataloguePage filterBy(CategoriesEnum name) {
         $$("#filters input").filterBy(value(name.getName())).first().click();
         logger.atInfo().log("select filter %s", name.getName());
         return this;
     }
 
-
+    @Step
     public CataloguePage clickApplyButton() {
         $("#filters-form > a").click();
         logger.atInfo().log("click to Apply button");
         return this;
     }
 
+    @Step
     public CataloguePage clickClearFilters() {
         $("[onclick*='reset']").click();
         logger.atInfo().log("click Clear button on filter selector");
         return this;
     }
 
-
+    @Step
     public CataloguePage setNumberOfShowedProducts(Integer number) {
         $(format("[onclick*='PageSize(%d)']", number)).click();
         logger.atInfo().log("click to set %d showed products", number);
         return this;
     }
 
-
+    @Step
     public CataloguePage goToPageWithNumber(Integer i) {
         $(format("[onclick='setNewPage(%d)']", i)).shouldBe(visible).click();
         logger.atInfo().log("click to page ttan have number %d in pagination", i);
         return this;
     }
 
-
+    @Step
     public CataloguePage sortBy(String sortBy) {
         $(byName("sort-by")).shouldBe(visible).selectOption(sortBy);
         logger.atInfo().log("sort items by %s", sortBy);
@@ -72,11 +75,13 @@ public class CataloguePage extends WebPage {
         return size;
     }
 
-    public CataloguePage viewDetailsOfFirsItem() {
+    @Step
+    public  CataloguePage viewDetailsOfFirsItem() {
         products.get(0).shouldBe(visible).find(".text h3 a").click();
         return this;
     }
 
+    @Step
     public CataloguePage addItemToCartWithName(String name) {
         SelenideElement container = $("[id='row products']");
 
@@ -88,6 +93,7 @@ public class CataloguePage extends WebPage {
         return this;
     }
 
+    @Step
     public CataloguePage clickCartButton() {
         cartButton.shouldBe(visible).click();
         logger.atInfo().log("click to cart button on header");

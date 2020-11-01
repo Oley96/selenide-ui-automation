@@ -1,6 +1,7 @@
 package pageobjects.fragments;
 
 import dto.User;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -33,12 +34,13 @@ public class RegisterModal {
         return this;
     }
 
+    @Step
     public RegisterModal clickRegisterButton() {
         $("[onclick*='register']").click();
         return this;
     }
 
-
+    @Step
     public RegisterModal registerWith(User user) {
         fillUsername(user.getUsername());
         fillFirstName(user.getFirstName());
@@ -49,13 +51,14 @@ public class RegisterModal {
         return this;
     }
 
-
+    @Step
     public RegisterModal verifySuccessMessagePresent() {
         $(".alert.alert-success").shouldBe(visible)
                 .shouldHave(text("Registration and login successful."));
         return this;
     }
 
+    @Step
     public RegisterModal verifyErrorMessagePresent() {
         $(".alert.alert-danger").shouldBe(visible)
                 .shouldHave(text("There was a problem with your registration: Internal Server Error"));
