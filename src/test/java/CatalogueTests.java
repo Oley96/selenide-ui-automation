@@ -37,7 +37,7 @@ public class CatalogueTests extends BaseTest {
         assertEquals(6, cataloguePage.getItemsSize());
     }
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "{displayName}[{index}], arguments({arguments})")
     @MethodSource("test_data.CatalogueDataProvider#catalogProductNumberData")
     @DisplayName("User can change quantity of showed products")
     public void canChangeQuantityOfShowedProducts(int number, String urlParam) {
