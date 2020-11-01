@@ -58,8 +58,6 @@ tasks.withType(Test) {
 allure {
     autoconfigure = true
     version = "$allureVersion"
-    aspectjweaver = true    // Latest Allure Version
-    configuration = "compile"
 
     useJUnit5 {
         version = "$allureVersion" // Latest Allure Version
