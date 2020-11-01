@@ -1,7 +1,7 @@
 node {
 
     stage("checkout repository") {
-        git branch: 'master',
+        git branch: 'main',
         url: 'https://github.com/Oley96/selenide-ui-automation.git'
     }
 
