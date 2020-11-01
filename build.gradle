@@ -14,13 +14,13 @@ repositories {
     jcenter()
 }
 
-
 ext {
     floggerVersion = "0.4"
     javaOwnerVersion = "1.0.12"
     junit5Version = "5.7.0"
     selenideVersion = "5.15.1"
     slf4jVersion = "1.6.1"
+    restAssuredVerifon = "4.3.1"
 }
 
 dependencies {
@@ -36,6 +36,8 @@ dependencies {
     compile group: "com.google.flogger", name: "flogger-system-backend", version: "$floggerVersion"
     compile group: "com.google.flogger", name: "flogger", version: "$floggerVersion"
     compile group: 'org.aeonbits.owner', name: 'owner', version: "$javaOwnerVersion"
+    compile group: 'io.rest-assured', name: 'rest-assured', version: "$restAssuredVerifon"
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.3'
 }
 
 tasks.withType(Test) {

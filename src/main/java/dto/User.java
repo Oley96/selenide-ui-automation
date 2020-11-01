@@ -1,9 +1,8 @@
 package dto;
 
+import helpers.RandomHelper;
 import lombok.*;
 
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
-import static helpers.RandomHelper.getRandomNumberWithLength;
 
 @Getter
 @NoArgsConstructor
@@ -13,7 +12,7 @@ import static helpers.RandomHelper.getRandomNumberWithLength;
 public class User {
 
     @Builder.Default
-    private String userName = "john_doe".concat(getRandomNumberWithLength(5));
+    private String username = RandomHelper.getRandomUsername();
 
     @Builder.Default
     private String firstName = "John";
@@ -22,9 +21,9 @@ public class User {
     private String lastName = "Doe";
 
     @Builder.Default
-    private String email = randomAlphabetic(6, 10).concat("@gmail.com");
+    private String email = RandomHelper.getRandomEmail();
 
     @Builder.Default
-    private String password = randomAlphabetic(10);
+    private String password = RandomHelper.getRandomPassword();
 
 }

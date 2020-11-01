@@ -40,7 +40,7 @@ public class RegisterModal {
 
 
     public RegisterModal registerWith(User user) {
-        fillUsername(user.getUserName());
+        fillUsername(user.getUsername());
         fillFirstName(user.getFirstName());
         fillLastName(user.getLastName());
         fillEmail(user.getEmail());

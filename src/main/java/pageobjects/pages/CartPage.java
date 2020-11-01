@@ -30,17 +30,18 @@ public class CartPage extends WebPage {
     }
 
     public CartPage shouldContainsItemWithName(String name) {
-        $("[action*='customer-orders']").$(byLinkText(name)).shouldBe(visible);
+        $("[action*='customer-orders']").shouldBe(visible).$(byLinkText(name)).shouldBe(visible);
         return this;
     }
 
     public CartPage removeItemWithName(String name) {
-        $(Selectors.byLinkText(name)).parent().parent().$("[onclick*='deleteFromCart']").click();
+        $(byLinkText(name)).shouldBe(visible)
+                .parent().parent().$("[onclick*='deleteFromCart']").shouldBe(visible).click();
         return this;
     }
 
     public CartPage setItemQuantity(String number) {
-        quantityInput.val(number);
+        quantityInput.shouldBe(visible).val(number);
         logger.atInfo().log("set quantity of items equals %s", number);
         return this;
     }
@@ -58,7 +59,7 @@ public class CartPage extends WebPage {
     }
 
     public CartPage verifyRemoving(String name) {
-        $(Selectors.byLinkText(name)).should(disappear);
+        $("[action*='customer-orders']").$(byLinkText(name)).shouldNotBe(visible);
         logger.atInfo().log("check removing %s item", name);
         return this;
     }

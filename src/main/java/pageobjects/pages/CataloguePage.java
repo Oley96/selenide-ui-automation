@@ -55,7 +55,7 @@ public class CataloguePage extends WebPage {
 
 
     public CataloguePage goToPageWithNumber(Integer i) {
-        $(format("[onclick='setNewPage(%d)']", i)).click();
+        $(format("[onclick='setNewPage(%d)']", i)).shouldBe(visible).click();
         logger.atInfo().log("click to page ttan have number %d in pagination", i);
         return this;
     }
@@ -80,15 +80,16 @@ public class CataloguePage extends WebPage {
     public CataloguePage addItemToCartWithName(String name) {
         SelenideElement container = $("[id='row products']");
 
-        container.$(Selectors.byText(name)).shouldBe(visible).parent().parent()
+        container.shouldBe(visible).$(Selectors.byText(name)).shouldBe(visible).parent().parent()
                 .find("[onclick*='addToCart']").shouldBe(visible).click();
+
         logger.atInfo().log("add item to cart with name %s", name);
         sleep(1000);
         return this;
     }
 
     public CataloguePage clickCartButton() {
-        cartButton.click();
+        cartButton.shouldBe(visible).click();
         logger.atInfo().log("click to cart button on header");
         return this;
     }

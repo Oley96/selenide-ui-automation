@@ -38,7 +38,7 @@ public class CatalogueTests extends BaseTest {
     }
 
     @ParameterizedTest
-    @MethodSource("test_data.CatalogueData#catalogProductNumberData")
+    @MethodSource("test_data.CatalogueDataProvider#catalogProductNumberData")
     @DisplayName("User can change quantity of showed products")
     public void canChangeQuantityOfShowedProducts(int number, String urlParam) {
         cataloguePage.setNumberOfShowedProducts(number);

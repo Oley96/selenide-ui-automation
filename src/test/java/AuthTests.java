@@ -1,7 +1,5 @@
 import dto.User;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import resolver.UserResolver;
 
@@ -19,7 +17,7 @@ public class AuthTests extends BaseTest {
     @DisplayName("User can login with valid credentials")
     public void canLoginWithValidCredentials() {
         mainPage.clickLogin();
-        loginModal.loginWith(registeredUser).verifySuccessMessagePresent();
+        loginModal.loginWith(user).verifySuccessMessagePresent();
         mainPage.verifyLogoutButtonPresent();
     }
 
@@ -27,7 +25,7 @@ public class AuthTests extends BaseTest {
     @DisplayName("User cant login with Invalid credentials")
     public void cantLoginWithInvalidCredentials(User user) {
         User invalidUser = user.toBuilder()
-                .userName("VOVKA")
+                .username("VOVKA")
                 .password("123456")
                 .build();
 
@@ -37,9 +35,9 @@ public class AuthTests extends BaseTest {
 
     @Test
     @DisplayName("User can register with valid credentials")
-    public void canRegisterWithValidCredentials(User user) {
+    public void canRegisterWithValidCredentials(User newUser) {
         mainPage.clickRegister();
-        registerModal.registerWith(user).verifySuccessMessagePresent();
+        registerModal.registerWith(newUser).verifySuccessMessagePresent();
         mainPage.verifyLogoutButtonPresent();
     }
 
@@ -54,7 +52,7 @@ public class AuthTests extends BaseTest {
     @DisplayName("User can logout after login")
     public void userCanLogout() {
         mainPage.clickLogin();
-        loginModal.loginWith(registeredUser);
+        loginModal.loginWith(user);
         mainPage.clickLogout().verifyLoginButtonPresent();
     }
 
@@ -62,7 +60,7 @@ public class AuthTests extends BaseTest {
     @DisplayName("Logged in user should see account tab")
     public void shouldPresentAccountTab() {
         mainPage.clickLogin();
-        loginModal.loginWith(registeredUser);
+        loginModal.loginWith(user);
         mainPage.accountTab().shouldBe(visible);
     }
 

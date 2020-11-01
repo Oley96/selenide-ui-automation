@@ -37,7 +37,7 @@ public class LoginModal {
     }
 
     public LoginModal loginWith(User user) {
-        this.fillUsername(user.getUserName());
+        this.fillUsername(user.getUsername());
         this.fillPassword(user.getPassword());
         this.clickToLoginButton();
         return this;
