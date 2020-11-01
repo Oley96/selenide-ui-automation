@@ -37,7 +37,7 @@ commands syntax:
 ```
  ./gradlew clean testChrome
 ```
-- **remote run with chrome browser (can be configured on driver.properties.file)**
+- **remote run with chrome browser (can be configured on driver.properties file)**
 ```
  ./gradlew clean testRemoteChrome
 ```
